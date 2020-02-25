@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 19
+*****************************
+VENTA: 19
+CLIENTE: JORVING JHOEL NIETO SILVA
+FORM.PAGO: CONTADO
+FECHA:2019-07-29 14:24:56
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+FOSFORO INTI//UNIDAD
+    2(2)  S/.0.24 S/. 0.48
+
+*****************************
+SUB TOTAL      S/ : 0.48
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 0.48
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

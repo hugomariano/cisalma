@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 17
+*****************************
+VENTA: 17
+CLIENTE: JORVING JHOEL NIETO SILVA
+FORM.PAGO: CONTADO
+FECHA:2019-07-29 01:21:36
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+YAS CARTERA//UNIDAD
+    3(3)  S/.0.00 S/. 0.00
+
+*****************************
+SUB TOTAL      S/ : 0.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 0.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

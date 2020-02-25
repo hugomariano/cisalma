@@ -1,0 +1,177 @@
+{% extends "compras/base.html" %}
+{% load static %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
+{% endblock %}
+
+
+{% block content %}
+            <form method="post">{% csrf_token %}
+    <div class="panel panel-inverse">
+
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+               <button id="add_btn" type="button" class="btn btn-xs btn-success"><i class="fa fa-plus fas"></i></button>
+            </div>
+            <h4 class="panel-title">Compra </h4>
+        </div>
+        <div class="panel-body">
+             <div class="form-group row m-b-3">
+                    <div class="col-md-1">
+                        <label class="control-label">PROVEEDOR:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ model.proveedor.descripcion }}
+                    </div>
+                 <div class="col-md-1">
+                        <label class="control-label">ALMACEN:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ model.almacen.descripcion }}
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">TIPO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ form.tipo }}
+                    </div>
+                 <div class="col-md-1">
+                        <label class="control-label">TOTAL:</label>
+                    </div>
+                    <div class="col-md-2" id="compra_total">
+                        {{ model.total_final }}
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="panel panel-inverse">
+        <div class="panel-body">
+                <input type="hidden" id="detallecompra_to_delete" name="detallecompra_to_delete" value="">
+                <input type="hidden" id="current_pos" value="{{ detalle|length }}">
+                <input type="hidden" id="detallecompra_to_save" name="detallecompra_to_save" value="">
+                <input type="hidden" id="proveedor_id" value="{{ model.proveedor_id }}">
+                   <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="17%">Producto</th>
+                                    <th width="13%">Presentación</th>
+                                    <th width="15%">Precio</th>
+                                    <th width="10%">Cantidad</th>
+                                    <th width="8%">SubTot.</th>
+                                    <th width="8%">Desc.</th>
+                                    <th width="10%">Impuesto</th>
+                                    <th width="10%">Total</th>
+                                    <th width="5%">Promocion</th>
+                                    <th width="5%">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody_detallecompra">
+                                <tr id="tr_detallecompra_empty">
+                                    <td>{{ clean_form.producto }}</td>
+                                    <td><select class="presentacionxproducto"></select></td>
+                                    <td class="td_precio">{{ clean_form.precio }}</td>
+                                    <td>{{ clean_form.cantidad_presentacion }}</td>
+                                    <td class="td_subtotal">0</td>
+                                    <td class="td_descuento">0</td>
+                                    <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax"><i class="fa fa-plus fas"></i></button></td>
+                                    <td class="td_total">0</td>
+                                    <td><input type="hidden" class="impuesto_inp"><input type="hidden" class="promocion_inp"><a class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                    <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn"><i class="fas fa-trash"></i></a></td>
+                                </tr>
+                                {% for d in detalle %}
+                                    <tr id="tr_dc_{{ forloop.counter }}" data-id="{{ d.1.id }}">
+                                        <td><input type="hidden" value="{{ d.1.id }}" name="dc{{ forloop.counter }}-id">{{ d.0.producto }}</td>
+                                        <td><select name="dc{{ forloop.counter }}-presentacionxproducto" data-selected="{{ d.1.presentacionxproducto_id }}" required class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
+                                        <td class="td_precio">{{ d.0.precio }}</td>
+                                        <td>{{ d.0.cantidad_presentacion_pedido }}</td>
+                                        <td class="td_subtotal">0</td>
+                                        <td class="td_descuento">0</td>
+                                        <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax" data-pos="{{ forloop.counter }}"><i class="fa fa-plus fas"></i></button></td>
+                                        <td class="td_total">{{ d.1.total_final }}</td>
+                                        <td><input type="hidden" class="impuesto_inp" value="{{ d.1.impuesto_value }}" name="dc{{ forloop.counter }}-impuesto"><input type="hidden" class="promocion_inp" name="dc{{ forloop.counter }}-oferta" value="{{ d.1.oferta }}"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                        <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+           
+            <div  class="modal-footer pull-right" id="btn_save">
+                <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+                </button>
+            </div>
+
+        </div>
+    </div>
+            </form>
+{% endblock %}
+
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal modal-message fade" id="modal-promocion">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-body" id="body_promociones">
+                        <fieldset>
+                            <legend class="m-b-15">Promociones por Producto
+                                <span class="span-right"><button id="add_promocion" type="button" class="btn btn-success"><i class="fa fa-plus fas"></i> Agregar</button></span>
+                            </legend>
+                        </fieldset>
+                        <input id="current_pos_promocion" type="hidden">
+                        <div id="div_producto_empty">{{ clean_form.producto }}</div>
+                        <div id="div_promocion_empty" class="form-inline">
+                            <div class="form-group m-r-10 form_group_styles">
+                                <select class="form-control tipo_promocion">
+                                    <option value="">Tipo de Promoción</option>
+                                    <option value="1">PRODUCTO</option>
+                                    <option value="2">DESC. MONETARIO</option>
+                                    <option value="3">DESC. PORCENTUAL</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button id="save_promocion" class="btn btn-success">Guardar Promoción</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-impuesto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-body" id="body_promociones">
+                        <fieldset>
+                            <legend class="m-b-15">Impuestos por Producto</legend>
+                        </fieldset>
+                        <input id="current_pos_impuesto" type="hidden">
+                        <div>
+                            {{ impuesto_form.impuesto }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button id="save_impuesto" class="btn btn-success">Guardar Impuestos</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/own/compras/compraedit.js" %}"></script>
+    <script>
+        $(".default-select2").select2();
+        $(".multiple-select2").select2({dropdownParent: $('#modal-impuesto')});
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+        init_compraedit();
+    </script>
+{% endblock %}

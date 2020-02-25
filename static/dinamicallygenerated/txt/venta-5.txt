@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 5
+*****************************
+VENTA: 5
+CLIENTE: REGULAR 
+FORM.PAGO: CONTADO
+FECHA:2018-11-11 22:03:09
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+FOCO INTELIGENTE 15 WTS//UNIDAD
+    2(2)  S/.13.00 S/. 26.00
+
+*****************************
+SUB TOTAL      S/ : 26.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 26.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

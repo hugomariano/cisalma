@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 11
+*****************************
+VENTA: 11
+CLIENTE: REGULAR 
+FORM.PAGO: CONTADO
+FECHA:2018-11-18 15:30:10
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+QUITA ESMALTE UÑAS//UNIDAD
+    3(3)  S/.0.00 S/. 0.00
+
+*****************************
+SUB TOTAL      S/ : 0.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 0.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 2
+*****************************
+VENTA: 2
+CLIENTE: JORVING JHOEL NIETO SILVA
+FORM.PAGO: CONTADO
+FECHA:2018-11-11 21:25:50
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+CIGARRO LUCKY AZUL//CAJETILLA
+    1(1)  S/.0.00 S/. 0.00
+
+*****************************
+SUB TOTAL      S/ : 0.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 0.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

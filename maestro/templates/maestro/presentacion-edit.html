@@ -1,0 +1,40 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+{% block head_files %}
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                
+            </div>
+            <h4 class="panel-title">Presentacion</h4>
+        </div>
+        <div class="panel-body">
+            <form method="post">{% csrf_token %}
+                <div class="form-group row m-b-2">
+                    <div class="col-md-2">
+                        <label class="control-label">DESCRIPCION:</label>
+                    </div>
+
+                    <div class="col-md-6">
+
+                      {{ object.descripcion }}  
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}

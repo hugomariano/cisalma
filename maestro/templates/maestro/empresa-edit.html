@@ -1,0 +1,48 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+               
+            </div>
+            <h4 class="panel-title">Empresa</h4>
+        </div>
+        <div class="panel-body">
+            <form method="post">{% csrf_token %}
+      <div class="form-group row m-b-3">
+          <div class="col-md-2">
+                <label class="control-label">RAZÓN SOCIAL:</label>
+            </div>
+            <div class="col-md-4">
+                {{ object.descripcion }}
+            </div>
+            <div class="col-md-2">
+                <label class="control-label">RUC:</label>
+            </div>
+            <div class="col-md-4">
+               {{ object.ruc }}
+            </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-xs btn-success"><i class="fa  fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $(".default-select2").select2();
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+    </script>
+{% endblock %}

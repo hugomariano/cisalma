@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 10
+*****************************
+VENTA: 10
+CLIENTE: REGULAR 
+FORM.PAGO: CONTADO
+FECHA:2018-11-11 22:13:11
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+ACEITE MAQUINA//DOC
+    2(24)  S/.45.60 S/. 90.00
+
+*****************************
+SUB TOTAL      S/ : 91.20
+DESCUENTO      S/ : 1.20
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 90.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

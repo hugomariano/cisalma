@@ -1,0 +1,88 @@
+{% extends "almacen/base.html" %}
+{% load static %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <a href="#modal-filtros" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-search"></i></a>
+               
+            </div>
+            <h4 class="panel-title">Entrega de la Venta</h4>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-nowrap">Cliente</th>
+                        <th class="text-nowrap">Asignado</th>
+                        <th class="text-nowrap">Total</th>
+                        <th class="text-nowrap">Entregar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for o in object_list %}
+                        <tr>
+                            <td>{% if o.cliente.descripcion == '' or o.cliente.descripcion is None %}REGULAR{% else %}{{ o.cliente.descripcion }}{% endif %}</td>
+                            <td>{{ o.asignado.username }}</td>
+                            <td>{{ o.total_final }}</td>
+                            <td><div class="fa-2x"><a class="no-link" href="/almacen/entrega_venta/{{ o.id }}"><i class="fas fa-xs fa-list icons-table"></i></a></div></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-filtros">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Filtros</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Clientes</label>
+                                {{ entrega_filtro.cliente }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Filtrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/DataTables/media/js/jquery.dataTables.js" %}"></script>
+	<script src="{% static "assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js" %}"></script>
+    <script src="{% static "assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js" %}"></script>
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $('#table').DataTable({
+            language: {
+                "url": "/static/assets/plugins/Datatables/language/Spanish.json"
+            },
+            responsive: true
+        });
+        $(".multiple-select2").select2();
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+    </script>
+{% endblock %}

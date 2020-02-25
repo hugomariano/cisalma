@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 7
+*****************************
+VENTA: 7
+CLIENTE: JORVING JHOEL NIETO SILVA
+FORM.PAGO: CONTADO
+FECHA:2018-11-11 22:08:24
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+ESCOBILLA PLASTICO CON ASA//DOC
+    -1(-12)  S/.18.00 S/. -18.00
+
+*****************************
+SUB TOTAL      S/ : -18.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : -18.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

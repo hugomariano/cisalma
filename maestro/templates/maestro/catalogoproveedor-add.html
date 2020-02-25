@@ -1,0 +1,97 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+{% endblock %}
+
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <input type="hidden" id="current_pos" value="{{ own_presentaciones|length }}">
+    <input type="hidden" id="presentacion_to_save" name="catalogo_to_save" value="">
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+               
+            </div>
+            <h4 class="panel-title">Catálogo Proveedor</h4>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group row m-b-2">
+                <div class="col-md-2">
+                    <label class="control-label">PROVEEDOR:</label>
+                </div>
+
+                <div class="col-md-4">
+                    <select name="proveedor" class="select2 form-control">
+                        {% for p in proveedores %}
+                        <option {% if p.id == own_proveedor %} selected {% endif %} value="{{ p.id }}">{{ p.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-inverse">
+        <div class="modal-header">
+            <h4 class="panel-title">Producto</h4>
+            <div class="btn-group pull-right">
+                <button id="add_btn" type="button" class="btn btn-xs btn-success"><i class="fa fa-plus fas"></i> </button>
+            </div>
+            
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                        <div class="col-md-12">
+                           <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Accion</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="tbody_presentacion">
+                                        <tr id="tr_presentacion_empty">
+                                            
+                                            <td>
+                                                <select class="select form-control">
+                                                </select>
+                                            </td>
+                                            <td><a data-pos="" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+            </button>
+
+        </div>
+    </div>     
+</form>
+           
+
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/own/maestro/catalogoproveedor.js" %}"></script>
+    <script>
+        $(".select2").select2();
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+        init_catalogoproveedor_add();
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "clientes/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+              <a href="/clientes/contacto/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+              <a href="/clientes/contacto/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+            </div>
+            <h4 class="panel-title">Contacto</h4>
+        </div>
+        <div class="panel-body">
+           <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="td-detail-title">CLIENTE:</td>
+                                <td class="td-detail-desc"><a href="/clientes/cliente/{{ object.cliente.id }}">{{ object.cliente }}</a></td>
+                                <td class="td-detail-title">CARGO:</td>
+                                <td class="td-detail-desc">{{ object.cargo }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">NOMBRES:</td>
+                                <td class="td-detail-desc">{{ object.nombres }}</td>
+                                <td class="td-detail-title">APELLIDOS:</td>
+                                <td class="td-detail-desc">{{ object.apellidos }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">DNI:</td>
+                                <td class="td-detail-desc">{{ object.dni }}</td>
+                                <td class="td-detail-title">TELEFONO:</td>
+                                <td class="td-detail-desc">{{ object.telefono }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">CORREO:</td>
+                                <td class="td-detail-desc">{{ object.correo }}</td>
+                                <td class="td-detail-title"></td>
+                                <td class="td-detail-desc"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}

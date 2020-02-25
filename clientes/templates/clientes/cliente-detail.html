@@ -1,0 +1,89 @@
+{% extends "clientes/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+              <a href="/clientes/cliente/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+              <a href="/clientes/cliente/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+            </div>
+            <h4 class="panel-title">Clientes</h4>
+        </div>
+        <div class="panel-body">
+           <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="td-detail-title">TIPO:</td>
+                                <td class="td-detail-desc">{% if object.tipo == '1' %} PERSONA {% else %} EMPRESARIAL {% endif %}</td>
+                                <td class="td-detail-title">RUC:</td>
+                                <td class="td-detail-desc">{{ object.ruc|default_if_none:' ' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">DNI:</td>
+                                <td class="td-detail-desc">{{ object.dni|default_if_none:' ' }}</td>
+                                <td class="td-detail-title">RAZON SOCIAL:</td>
+                                <td class="td-detail-desc">{{ object.razon_social|default_if_none:' ' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">NOMBRES:</td>
+                                <td class="td-detail-desc">{{ object.nombres|default_if_none:' ' }}</td>
+                                <td class="td-detail-title">APELLIDOS:</td>
+                                <td class="td-detail-desc">{{ object.apellidos|default_if_none:' ' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">TELEFONO:</td>
+                                <td class="td-detail-desc">{{ object.telefono }}</td>
+                                <td class="td-detail-title">CORREO:</td>
+                                <td class="td-detail-desc">{{ object.correo }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">CLIENTE DE:</td>
+                                <td class="td-detail-desc">{{ object.empresa.descripcion }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              <legend class="m-b-15">Contactos
+                   <span class="span-right"><a href="/clientes/contacto/0/edit?cliente={{ object.id }}" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Agregar</a></span>
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Descripcion</th>
+                                <th>Cargo</th>
+                                <th>Telefono</th>
+                                <th>Correo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in contactos %}
+                                <tr>
+                                    <td>{{ c.descripcion }}</td>
+                                    <td>{{ c.cargo }}</td>
+                                    <td>{{ c.telefono }}</td>
+                                    <td>{{ c.correo }}</td>
+                                    <td><div class="fa-2x"><a class="no-link" href="/clientes/contacto/{{ c.id }}"><i class="fas fa-eye icons-table"></i></a>
+                                        <a class="no-link" href="/clientes/contacto/{{ c.id }}/edit"><i  class="fas fa-edit icons-table"></i></a></div></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+           </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}

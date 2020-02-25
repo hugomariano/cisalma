@@ -1,0 +1,157 @@
+{% extends "almacen/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/plugins/switchery/switchery.min.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block breadcrumb  %}
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><a href="javascript:;">Almacen</a></li>
+        <li class="breadcrumb-item"><a href="/maestro/sucursal">Recepción</a></li>
+        <li class="breadcrumb-item active">Detalle</li>
+    </ol>
+{% endblock %}
+
+{% block pageheader %}
+    <h1 class="page-header">Entrega de Venta <small>Detalle de la Entrega</small></h1>
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            </div>
+            <h4 class="panel-title">Entrega de Venta </h4>
+        </div>
+        <div class="panel-body">
+            <form method="post">{% csrf_token %}
+                <input type="hidden" id="detalleventa_to_delete" name="detalleventa_to_delete" value="">
+                <input type="hidden" id="current_pos" value="{{ detalle|length }}">
+                <input type="hidden" id="detalleventa_to_save" name="detalleventa_to_save" value="">
+           <div class="col-md-12">
+               <div class="row buttons-content">
+                   <button type="submit" class="btn btn-success">
+                        <i class="fa fa-save fas"></i> Guardar
+                    </button>
+
+               </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="td-detail-title">CLIENTE:</td>
+                                <td class="td-detail-desc">{% if object.cliente is None %} REGULAR {% else %} {{ object.cliente.descripcion }} {% endif %}</td>
+                                <td class="td-detail-title">ESTADO:</td>
+                                <td class="td-detail-desc">{{ venta_form.estado }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">TOTAL:</td>
+                                <td class="td-detail-desc">{{ object.total_final }}</td>
+                                <td class="td-detail-title">FECHA-HORA:</td>
+                                <td class="td-detail-desc">{{ object.fechahora|date:'d-m-Y H:i' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">ASIGNADO:</td>
+                                <td class="td-detail-desc">{{ object.asignado.username }}</td>
+                                <td class="td-detail-title">VENTA:</td>
+                                <td class="td-detail-desc">{{ object.venta|default_if_none:'' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">TIPO PAGO:</td>
+                                <td class="td-detail-desc">{{ venta_form.tipo_pago }}</td>
+                                <td class="td-detail-title">TIPO COMPROBANTE:</td>
+                                <td class="td-detail-desc">{{ venta_form.tipo_comprobante }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">SERIE COMPROBANTE:</td>
+                                <td class="td-detail-desc">{{ venta_form.serie_comprobante }}</td>
+                                <td class="td-detail-title">NUMERO COMPROBANTE:</td>
+                                <td class="td-detail-desc">{{ venta_form.numero_comprobante }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+               <legend class="m-b-15">
+                   Detalle
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10%">Check</th>
+                                <th width="20%">Producto</th>
+                                <th width="15%">Presentación</th>
+                                <th width="10%">Cantidad</th>
+                                <th width="10%">Precio</th>
+                                <th width="10%">Descuento</th>
+                                <th width="10%">Impuesto</th>
+                                <th width="15%">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                <tr>
+                                    <td class="td_check"><input type="checkbox" data-render="switchery" data-theme="default" name="dv{{ forloop.counter }}-is_checked" {% if d.is_checked %} checked {% endif %} /></td>
+                                    <td><input type="hidden" class="is_oferta" value="{{ d.is_oferta }}"><input type="hidden" name="dv{{ forloop.counter }}-id" value="{{ d.id }}">{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                    <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                    <td>
+                                        <input type="hidden" class="form-control cantidad_pedido" value="{{ d.cantidad_presentacion_pedido }}">
+                                        <input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_pedido }}">
+                                    </td>
+                                    <td class="td_precio">{{ d.precio }}</td>
+                                    <td class="td_descuento">{{ d.descuento }}</td>
+                                    <td class="td_impuesto">{% for i in d.impuesto_value.0 %} * {{ i }} <br>  {% endfor %}<input type="hidden" class="impuesto_inp" value="{{ d.impuesto_value.1 }}"></td>
+                                    <td class="td_total_final">{{ d.total_final }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block modal %}
+
+{% endblock %}
+
+
+{% block bottom_scripts %}
+        <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    	<script src="{% static "assets/plugins/switchery/switchery.min.js" %}"></script>
+    	<script src="{% static "assets/own/almacen/entrega.js" %}"></script>
+        <script>
+            $(".default-select2").val('');
+            $(".default-select2").select2({placeholder:'Seleccione un producto', dropdownParent: $('#modal-agregar_producto')});
+            $(".presentacionxproducto_nopedido").select2({placeholder:'Seleccione un Producto', dropdownParent: $('#modal-agregar_producto')});
+            $(".estado_select").select2({placeholder:'Seleccione'});
+            $(".select2-container--default").removeAttr('style').css("width","100%");
+    if ($('[data-render=switchery]').length !== 0) {
+        $('[data-render=switchery]').each(function() {
+            var themeColor = COLOR_GREEN;
+            var option = {};
+                option.color = themeColor;
+                option.secondaryColor = ($(this).attr('data-secondary-color')) ? $(this).attr('data-secondary-color') : '#dfdfdf';
+                option.className = ($(this).attr('data-classname')) ? $(this).attr('data-classname') : 'switchery';
+                option.disabled = ($(this).attr('data-disabled')) ? true : false;
+                option.disabledOpacity = ($(this).attr('data-disabled-opacity')) ? parseFloat($(this).attr('data-disabled-opacity')) : 0.5;
+                option.speed = ($(this).attr('data-speed')) ? $(this).attr('data-speed') : '0.5s';
+            var switchery = new Switchery(this, option);
+        });
+    }
+            init_entrega();
+        </script>
+{% endblock %}

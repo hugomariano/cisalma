@@ -1,0 +1,55 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+               <a href="/maestro/usuario/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa  fa-plus"></i> </a>
+                <a href="/maestro/usuario/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+            </div>
+            <h4 class="panel-title">Usuario</h4>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group row m-b-2">
+                <div class="col-md-1">
+                    <label class="control-label">NOMBRES:</label>
+
+                </div>
+                <div class="col-md-4">
+                    {{ object.first_name}}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">APELLIDOS:</label>
+                </div>
+
+                <div class="col-md-4">
+                    {{ object.last_name }}
+                </div>
+
+            </div>
+            <div class="form-group row m-b-2">
+                <div class="col-md-1">
+                    <label class="control-label">USERNAME:</label>
+
+                </div>
+                <div class="col-md-4">
+                    {{ object.username}}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">GRUPO:</label>
+                </div>
+
+                <div class="col-md-4">
+                    {{ object.grupo }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}+

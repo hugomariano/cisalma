@@ -1,0 +1,116 @@
+{% extends "ventas/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+              <a href="/ventas/oferta/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+              <a href="/ventas/oferta/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+
+            </div>
+            <h4 class="panel-title">Oferta</h4>
+        </div>
+        <div class="panel-body">
+           <div class="col-md-12">
+               <legend class="m-b-15">
+                 Datos Generales
+               </legend>
+              <div class="form-group row m-b-2">
+                    <div class="col-md-2">
+                        <label class="control-label">SUCURSAL:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.sucursal }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">DURACION:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.tipo_duracion }}
+                    </div>
+                </div>
+                <div class="form-group row m-b-2">
+                    <div class="col-md-2">
+                        <label class="control-label">PRODUCTO:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.producto_oferta }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">PRESENTACION:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.presentacion_oferta }}
+                    </div>
+                </div>
+                <div class="form-group row m-b-2">
+                    <div class="col-md-2">
+                        <label class="control-label">CANTIDAD A COMPRAR:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.cantidad_oferta }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">TIPO:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.tipo }}
+                    </div>
+                </div>
+                <div class="form-group row m-b-2" id="div_producto_retorno">
+                    <div class="col-md-2">
+                        <label class="control-label">PRODUCTO OTORGADO:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.producto_retorno }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">PRESENTACION:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.presentacion_retorno }}
+                    </div>
+                </div>
+                <div class="form-group row m-b-2">
+                    <div class="col-md-2">
+                        <label class="control-label">OFERTA:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.retorno }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA INICIO:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group date" id="datetimepicker1">
+                            {{ object.fechahora_inicio }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row m-b-2" id="div_limite">
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA FIN:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group date" id="datetimepicker2">
+                            {{ object.fechahora_fin }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">LIMITE:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.stock_limite }}
+                    </div>
+                </div>
+
+              </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}

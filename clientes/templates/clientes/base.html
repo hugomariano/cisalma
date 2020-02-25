@@ -1,0 +1,326 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<title>Empower | The Power of Data</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<link href="{% static "assets/plugins/jquery-ui/jquery-ui.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/plugins/bootstrap/4.1.0/css/bootstrap.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/plugins/font-awesome/5.0/css/fontawesome-all.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/plugins/animate/animate.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/css/default/style.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/css/default/style-responsive.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/css/default/theme/default.css" %}" rel="stylesheet" id="theme" />
+	<link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" />
+	<!-- ================== END BASE CSS STYLE ================== -->
+
+    {% block head_files %}
+
+    {% endblock %}
+
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="{% static "assets/plugins/pace/pace.min.js" %}"></script>
+	<!-- ================== END BASE JS ================== -->
+
+</head>
+<body>
+	<!-- begin #page-loader -->
+	<div id="page-loader" class="fade show"><span class="spinner"></span></div>
+	<!-- end #page-loader -->
+
+	<!-- begin #page-container -->
+	<div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+		<!-- begin #header -->
+		<div id="header" class="header navbar-default">
+			<!-- begin navbar-header -->
+
+			<!-- end navbar-header -->
+
+			<!-- begin navbar-collapse -->
+			<div class="collapse navbar-collapse pull-left" id="top-navbar">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-toolbox fa-fw"></i> Maestro <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/maestro/empresa">Empresa</a></li>							<li><a href="/maestro/sucursal">Sucursales</a></li>
+                            <li><a href="/maestro/almacen">Almacenes</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/maestro/producto"><b>Productos</b></a></li>
+                            <li><a href="/maestro/categoria">Categorias</a></li>
+                            <li><a href="/maestro/presentacion">Presentaciones</a></li>
+                            <li><a href="/maestro/catalogo">Catálogo</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/maestro/proveedor"><b>Proveedores</b></a></li>
+                            <li><a href="/maestro/catalogoproveedor">Catálogo</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/maestro/usuario">Usuario</a></li>
+                        </ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-child fa-fw"></i> Clientes <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/clientes/cliente">Clientes</a></li>
+							<li><a href="/clientes/contacto">Contactos</a></li>
+						</ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-th fa-fw"></i> Almacen <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/almacen/stock">Stock</a></li>
+							<li><a href="/almacen/kardex">Kardex</a></li>
+							<li><a href="/almacen/recepcion_compra">Recepcion Compra</a></li>
+						</ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-shopping-bag fa-fw"></i> Compras <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/compras/compra">Compras</a></li>
+						</ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-shopping-cart fa-fw"></i> Ventas <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/ventas/venta">Ventas</a></li>
+							<li><a href="/ventas/oferta">Ofertas</a></li>
+						</ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-dollar-sign fa-fw"></i> Finanzas <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/finanzas/jornada">Jornada</a></li>
+							<li><a href="/finanzas/cuentacliente">Cuentas Cliente</a></li>
+							<li><a href="/finanzas/cuentaproveedor">Cuentas Proveedor</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- end navbar-collapse -->
+
+					<!-- begin header-nav -->
+			<ul class="navbar-nav navbar-right">
+				<li>
+					<form action="/ventas/find" method="get" class="navbar-form hidden-sm">
+						<div class="form-group">
+							<input type="text" name="venta" class="form-control" placeholder="Buscar" />
+							<button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+						</div>
+					</form>
+				</li>
+				<li class="dropdown navbar-user">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<img src="{% static "assets/img/user/user-13.jpg" %}" alt="" />
+						<span class="d-none d-md-inline">{{ user_name }}</span> <b class="caret"></b>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a href="javascript:;" class="dropdown-item">Cerrar Sesión</a>
+					</div>
+				</li>
+			</ul>
+			<!-- end header navigation right -->
+		</div>
+		<!-- end #header -->
+
+		<!-- begin #sidebar -->
+		<div id="sidebar" class="sidebar">
+			<!-- begin sidebar scrollbar -->
+			<div data-scrollbar="true" data-height="100%">
+				<!-- begin sidebar user -->
+				<ul class="nav">
+					<li class="nav-profile">
+						<a href="javascript:;" data-toggle="nav-profile">
+							<div class="cover with-shadow"></div>
+							<div class="image">
+								<img src="{% static "assets/img/user/user-13.jpg" %}" alt="" />
+							</div>
+							<div class="info">
+								<b class="caret pull-right"></b>
+								{{ user_name }}
+								<small>{{ grupo_name }}</small>
+							</div>
+						</a>
+					</li>
+					<li>
+						<ul class="nav nav-profile">
+                            <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+                            <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
+                            <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
+                        </ul>
+					</li>
+				</ul>
+				<!-- end sidebar user -->
+				<!-- begin sidebar nav -->
+				<ul class="nav">
+					<li class="nav-header">Clientes</li>
+					<li id="nav_cliente"><a href="/clientes/cliente"><i class="fa fa-calendar"></i> <span>Clientes</span></a></li>
+					<li id="nav_contacto"><a href="/clientes/contacto"><i class="fa fa-calendar"></i> <span>Contactos</span></a></li>
+			        <!-- begin sidebar minify button -->
+					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+			        <!-- end sidebar minify button -->
+				</ul>
+				<!-- end sidebar nav -->
+			</div>
+			<!-- end sidebar scrollbar -->
+		</div>
+		<div class="sidebar-bg"></div>
+		<!-- end #sidebar -->
+
+        <!-- begin #content -->
+        <div id="content" class="content">
+        <!-- begin breadcrumb -->
+            {% block breadcrumb %}
+
+            {% endblock %}
+            <!-- end breadcrumb -->
+            <!-- begin page-header -->
+            {% block pageheader %}
+
+            {% endblock %}
+             <!-- end page-header -->
+
+            {% block content %}
+                <!-- begin panel -->
+                <!-- end panel -->
+            {% endblock %}
+        </div>
+		<!-- end #content -->
+
+        <!-- begin theme-panel -->
+        <div class="theme-panel">
+            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+            <div class="theme-panel-content">
+                <h5 class="m-t-0">Color Theme</h5>
+                <ul class="theme-list clearfix">
+                    <li class="active"><a href="javascript:;" class="bg-green" data-theme="default" data-theme-file="{% static "assets/css/default/theme/default.css" %}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default">&nbsp;</a></li>
+                    <li><a href="javascript:;" class="bg-red" data-theme="red" data-theme-file="{% static "assets/css/default/theme/red.css" %}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
+                    <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-theme-file="{% static "assets/css/default/theme/blue.css" %}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
+                    <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-theme-file="{% static "assets/css/default/theme/purple.css" %}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
+                    <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-theme-file="{% static "assets/css/default/theme/orange.css" %}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
+                    <li><a href="javascript:;" class="bg-black" data-theme="black" data-theme-file="{% static "assets/css/default/theme/black.css" %}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Black">&nbsp;</a></li>
+                </ul>
+                <div class="divider"></div>
+                <div class="row m-t-10">
+                    <div class="col-md-5 control-label double-line">Header Styling</div>
+                    <div class="col-md-7">
+                        <select name="header-styling" class="form-control form-control-sm">
+                            <option value="1">default</option>
+                            <option value="2">inverse</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-5 control-label">Header</div>
+                    <div class="col-md-7">
+                        <select name="header-fixed" class="form-control form-control-sm">
+                            <option value="1">fixed</option>
+                            <option value="2">default</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-5 control-label double-line">Sidebar Styling</div>
+                    <div class="col-md-7">
+                        <select name="sidebar-styling" class="form-control form-control-sm">
+                            <option value="1">default</option>
+                            <option value="2">grid</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-5 control-label">Sidebar</div>
+                    <div class="col-md-7">
+                        <select name="sidebar-fixed" class="form-control form-control-sm">
+                            <option value="1">fixed</option>
+                            <option value="2">default</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-5 control-label double-line">Sidebar Gradient</div>
+                    <div class="col-md-7">
+                        <select name="content-gradient" class="form-control form-control-sm">
+                            <option value="1">disabled</option>
+                            <option value="2">enabled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-5 control-label double-line">Content Styling</div>
+                    <div class="col-md-7">
+                        <select name="content-styling" class="form-control form-control-sm">
+                            <option value="1">default</option>
+                            <option value="2">black</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-12">
+                        <a href="javascript:;" class="btn btn-inverse btn-block btn-sm" data-click="reset-local-storage">Reset Local Storage</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end theme-panel -->
+
+		<!-- begin scroll to top btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+		<!-- end scroll to top btn -->
+	</div>
+	<!-- end page container -->
+
+    {% block modal %}
+
+    {% endblock %}
+
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="{% static "assets/plugins/jquery/jquery-3.2.1.min.js" %}"></script>
+	<script src="{% static "assets/plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+	<script src="{% static "assets/plugins/bootstrap/4.1.0/js/bootstrap.bundle.min.js" %}"></script>
+	<!--[if lt IE 9]>
+		<script src="{% static "assets/crossbrowserjs/html5shiv.js" %}"></script>
+		<script src="{% static "assets/crossbrowserjs/respond.min.js" %}"></script>
+		<script src="{% static "assets/crossbrowserjs/excanvas.min.js" %}"></script>
+	<![endif]-->
+	<script src="{% static "assets/plugins/slimscroll/jquery.slimscroll.min.js" %}"></script>
+	<script src="{% static "assets/plugins/js-cookie/js.cookie.js" %}"></script>
+	<script src="{% static "assets/js/theme/default.min.js" %}"></script>
+	<script src="{% static "assets/js/apps.min.js" %}"></script>
+	<script src="{% static "assets/own/strings.js" %}"></script>
+	<!-- ================== END BASE JS ================== -->
+
+	<script>
+		$(document).ready(function() {
+			App.init();
+            {% if nav_main %}
+            document.getElementById("{{ nav_main }}").classList.add("active");
+            {% endif %}
+		    document.getElementById("{{ nav_name }}").classList.add("active");
+		});
+	</script>
+
+    {% block bottom_scripts %}
+
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,106 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i>
+                </button>
+                <button id="add_btn" type="button" class="btn btn-xs btn-success"><i class="fa fa-plus fas"></i>
+                </button>
+            </div>
+            <h4 class="panel-title">Categorias</h4>
+        </div>
+        <div class="panel-body">
+            
+                <input type="hidden" id="presentacion_to_delete" name="presentacion_to_delete" value="">
+                <input type="hidden" id="current_pos" value="{{ own_presentaciones|length }}">
+                <input type="hidden" id="presentacion_to_save" name="presentacion_to_save" value="">
+               <div class="col-md-12">
+                    <div class="row">
+                           <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Presentacion</th>
+                                            <th>Cantidad</th>
+                                            <th>Accion</th>
+                                            
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="tbody_presentacion">
+                                        <tr id="tr_presentacion_empty">
+                                           
+                                            <td>
+                                                <input type="hidden" class="input-id">
+                                                <select class="select form-control">
+                                                    {% for p in presentaciones %}
+                                                            <option value="{{ p.id }}">{{ p.descripcion }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        
+                                            <td><input class="input-cantidad form-control" value=""></td>
+                                            <td><a data-pos="" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                        </tr>
+                                        {% for ow in own_presentaciones %}
+                                            <tr id="row_{{ forloop.counter0 }}">
+                                               
+                                                <td>
+                                                    <input type="hidden" name="p{{ forloop.counter }}-id" value="{{ ow.id }}">
+                                                    <select name="p{{ forloop.counter }}-presentacion" class="multiple-select2 form-control">
+                                                        {% for p in presentaciones %}
+                                                            {% if p.id == ow.presentacion.id %}
+                                                                <option value="{{ p.id }}" selected>{{ p.descripcion }}</option>
+                                                            {% else %}
+                                                                <option value="{{ p.id }}">{{ p.descripcion }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                               
+                                                <td><input name="p{{ forloop.counter }}-cantidad" class="form-control" value="{{ ow.cantidad }}"></td>
+                                                <td><a data-id="{{ ow.id }}" data-pos="{{ forloop.counter0 }}" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                    
+                    </div>
+                   {% for cat in categorias %}
+                       <div class="row row-space-12">
+                            {% for c in cat  %}
+                                <div class="col-md-1">
+                                    <div class="alert {{ forloop.counter0|categoria_colorpick }} fade show m-b-10">
+                                        {{ c }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                   {% endfor %}
+               </div>
+           
+        </div>
+    </div>
+ </form>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/own/maestro/producto.js" %}"></script>
+    <script>
+        $(".multiple-select2").select2();
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+        init_productopresentacion();
+    </script>
+{% endblock %}

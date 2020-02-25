@@ -1,0 +1,121 @@
+.own_lbl_table {
+    margin-top: 6px;
+}
+.own_admision_td {
+    width: 25%;
+}
+.own_row_admision{
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+.hide_table{
+    display: none;
+}
+.hide_notification{
+    display: none;
+}
+.hide_form{
+    display: none;
+}
+.icons-table{
+    margin-right: 10px;
+}
+.icons-table:hover{
+    color: #00acac;
+}
+.icon-table-delete{
+    margin-right: 10px;
+}
+.icon-table-delete:hover{
+    color: red;
+}
+.td-detail-title{
+    background-color: #c2c6ce;
+    color: black;
+    width: 20%;
+}
+.td-detail-desc{
+    background-color: #e3e3e5;
+    width: 30%;
+}
+
+.buttons-content{
+    margin-left: 3px;
+    margin-bottom: 10px;
+}
+.buttons{
+    margin-right: 5px;
+}
+.no-link{
+    color: inherit;
+    text-decoration : none;
+}
+.no-link:hover{
+    color: #00acac;
+}
+.no-link-delete{
+    color: inherit;
+    text-decoration : none;
+}
+.no-link-delete:hover{
+    color: red;
+}
+.span-right{
+    float: right;
+}
+legend{
+    padding-bottom: 8px;
+}
+.trash-content{
+    margin-top: 10px;
+}
+#tr_presentacion_empty{
+    display: none;
+}
+#add_btn{
+    margin-left: 10px;
+}
+/* Detalle Orden*/
+#tr_detallecompra_empty{
+    display: none;
+}
+/* Orden to Compra*/
+#div_promocion_empty{
+    display: none;
+}
+.form-inline{
+    margin-bottom: 10px;
+}
+.form_group_styles{
+    width: 17%;
+}
+.form_group_styles_control2{
+    width: 25%;
+}
+.form_group_styles_inp{
+    width: 11%;
+}
+#div_producto_empty{
+    display: none;
+}
+#tr_nopedido_empty{
+    display: none;
+}
+/* Detalle Venta*/
+#tr_detalleventa_empty{
+    display: none;
+}
+
+
+.btn-circle {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.periodo_credito_hdn{
+    display: none;
+}

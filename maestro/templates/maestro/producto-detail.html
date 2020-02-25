@@ -1,0 +1,114 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+              <a href="/maestro/producto/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+              <a href="/maestro/producto/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+               
+            </div>
+            <h4 class="panel-title">Producto</h4>
+        </div>
+        <div class="panel-body">
+           <div class="col-md-12">
+               <legend class="m-b-15">
+                 Datos Generales
+               </legend>
+              <div class="form-group row m-b-2">
+                <div class="col-md-1">
+                  <label class="control-label">EMPRESA:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.empresa.descripcion }}
+                </div>
+                <div class="col-md-1">
+                  <label  class="control-label">DESCRIPCION:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.descripcion }}
+                </div>
+                <div class="col-md-1">
+                  <label  class="control-label">UTILIDAD:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.utilidad_monetaria }}
+                </div>
+              </div>
+                         <div class="form-group row m-b-2">
+                <div class="col-md-1">
+                  <label class="control-label">PRECIO VENTA:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.precio_venta }}
+                </div>
+                <div class="col-md-1">
+                  <label  class="control-label">PRECIO COMPRA:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.precio_compra }}
+                </div>
+              </div>
+               <legend class="m-b-15">
+                   Categorias
+                   <span class="span-right"><a href="/maestro/producto/{{ object.id }}/categoria" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a></span>
+               </legend>
+               {% for cat in categorias %}
+                   <div class="row row-space-12">
+                        {% for c in cat  %}
+                            <div class="col-md-1">
+                                <div class="alert {{ forloop.counter0|categoria_colorpick }} fade show m-b-10">
+                                    {{ c }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+               {% endfor %}
+               <legend class="m-b-15">Presentaciones
+                   <span class="span-right"><a href="/maestro/producto/{{ object.id }}/presentacion" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a></span>
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Descripcion</th>
+                                <th>Cantidad por Unidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in presentaciones %}
+                                <tr>
+                                    <td>{{ p.presentacion.descripcion }}</td>
+                                    <td>{{ p.cantidad }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+               <legend class="m-b-15">Catalogo en:</legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Sucursal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in catalogo %}
+                                <tr>
+                                    <td>{{ c.empresa.descripcion }}</td>
+                                    <td>{{ c.descripcion }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+               </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}

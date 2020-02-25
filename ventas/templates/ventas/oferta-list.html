@@ -1,0 +1,70 @@
+{% extends "ventas/base.html" %}
+{% load static %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" %}" rel="stylesheet" />
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <a href="/ventas/oferta/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+            </div>
+            <h4 class="panel-title">Ofertas de Venta</h4>
+        </div>
+        <div class="panel-body">
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-nowrap">Duracion</th>
+                        <th class="text-nowrap">Tipo</th>
+                        <th class="text-nowrap">Producto</th>
+                        <th class="text-nowrap">Presentacion</th>
+                        <th class="text-nowrap">Cantidad</th>
+                        <th class="text-nowrap">Oferta</th>
+                        <th class="text-nowrap">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in object_list %}
+                        <tr>
+                            <td>{{ c.get_tipo_duracion_display }}</td>
+                            <td>{{ c.get_tipo_display }}</td>
+                            <td>{{ c.producto_oferta.descripcion }}</td>
+                            <td>{{ c.presentacion_oferta.presentacion.descripcion }}</td>
+                            <td>{{ c.cantidad_oferta }}</td>
+                            <td>
+                                {% if c.tipo == '1' %}
+                                    {{ c.retorno|floatformat:"0" }} {{ c.producto_oferta.descripcion }} en {{ c.presentacion_oferta.presentacion.descripcion }}
+                                {% elif c.tipo == '2' %}
+                                    Descuento de: S/. {{ c.retorno }}
+                                {% elif c.tipo == '3' %}
+                                    Descuento de: {{ c.retorno }} %
+                                {% endif %}
+                            </td>
+                            <td><div class="fa-2x"><a class="no-link" href="/ventas/oferta/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a>
+                                <a class="no-link" href="/ventas/oferta/{{ c.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a></div></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/DataTables/media/js/jquery.dataTables.js" %}"></script>
+	<script src="{% static "assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js" %}"></script>
+    <script src="{% static "assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js" %}"></script>
+    <script>
+        $('#table').DataTable({
+            language: {
+                "url": "/static/assets/plugins/Datatables/language/Spanish.json"
+            },
+            responsive: true
+        });
+    </script>
+{% endblock %}

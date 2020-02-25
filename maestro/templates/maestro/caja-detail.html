@@ -1,0 +1,39 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+               <a href="/maestro/caja/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa  fa-plus"></i> </a>
+                <a href="/maestro/caja/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+            </div>
+            <h4 class="panel-title">Caja</h4>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group row m-b-2">
+                <div class="col-md-1">
+                    <label class="control-label">SUCURSAL:</label>
+
+                </div>
+                <div class="col-md-4">
+                    {{ object.sucursal.descripcion }}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">DESCRIPCION:</label>
+                </div>
+
+                <div class="col-md-4">
+                    {{ object.descripcion }}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}+

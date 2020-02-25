@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 12
+*****************************
+VENTA: 12
+CLIENTE: REGULAR 
+FORM.PAGO: CONTADO
+FECHA:2018-11-19 03:40:46
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+FOSFORO INTI//PACK
+    3(30)  S/.2.40 S/. 8.00
+
+*****************************
+SUB TOTAL      S/ : 7.20
+DESCUENTO      S/ : -0.80
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 8.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

@@ -1,0 +1,293 @@
+{% extends "almacen/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/plugins/switchery/switchery.min.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="pull-right">
+            <button type="submit" form="compra" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+            </button>
+        </div>
+        <h4 class="panel-title">Recepcion de Compra </h4>
+    </div>
+
+    <form method="post" id="compra">{% csrf_token %}
+
+        <div class="panel-body">
+            <input type="hidden" id="detallecompra_to_delete" name="detallecompra_to_delete" value="">
+            <input type="hidden" id="current_pos" value="{{ detalle|length }}">
+            <input type="hidden" id="detallecompra_to_save" name="detallecompra_to_save" value="">
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">PROVEEDOR:</label>
+                </div>
+                <div class="col-md-3">
+                    {{ object.proveedor.descripcion }}
+
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label">ESTADO</label>
+
+                </div>
+                <div class="col-md-3">
+                    {{ compra_form.estado }}
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label">FECHA:</label>
+                </div>
+                <div class="col-md-2">
+                    {{ object.fechahora|date:'d-m-Y H:i' }}
+                </div>
+
+            </div>
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">TOTAL</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ object.total_final }}
+
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">ASIGNADO:</label>
+
+                </div>
+
+                <div class="col-md-3">
+                    {{ object.asignado.username }}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">COMPRA:</label>
+
+                </div>
+
+                <div class="col-md-2">
+                   {{ object.compra|default_if_none:'' }}
+                </div>
+
+            </div>
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">TIPO PAGO:</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ compra_form.tipo_pago }}
+
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">T.COMPROB.:</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ compra_form.tipo_comprobante }}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">S.COMPROB.:</label>
+
+                </div>
+                <div class="col-md-2">
+                    {{ compra_form.serie_comprobante }}
+                </div>
+
+            </div>
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">Nº COMPROBA.:</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ compra_form.numero_comprobante }}
+
+                </div>
+
+            </div>
+
+        </div>
+</div>
+
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="pull-right">
+            <label class="control-label"><h6 style="color:white">MENOS</h6></label>
+            <button type="button" class="btn btn-danger btn-circle btn-xs" style="background-color: rgb(255, 205, 204);"><i class="glyphicon glyphicon-ok"></i></button>&nbsp;&nbsp;
+            <label class="control-label"><h6 style="color:white">EXACTO</h6></label>
+            <button type="button" class="btn btn-green btn-circle btn-xs"
+            style="background-color: rgb(179, 230, 230)"><i class="glyphicon glyphicon-ok"></i></button>&nbsp;&nbsp;
+            <label class="control-label"><h6 style="color:white">MAS</h6></label>
+            <button type="button" class="btn btn-yellow btn-circle btn-xs" style="background-color: rgb(250, 206, 141);"><i class="glyphicon glyphicon-ok"></i></button>
+
+        </div>
+
+         <h4 class="panel-title">Detalle</h4>
+
+    </div>
+
+    <div class="panel-body">
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10%">Check</th>
+                                <th width="20%">Producto</th>
+                                <th width="15%">Presentación</th>
+                                <th width="10%">Cantidad</th>
+                                <th width="10%">Precio</th>
+                                <th width="10%">Descuento</th>
+                                <th width="10%">Impuesto</th>
+                                <th width="15%">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                {% if not d.is_nodeseado %}
+                                    <tr>
+                                        <td class="td_check"><input type="checkbox" data-render="switchery" data-theme="default" name="dc{{ forloop.counter }}-is_checked" {% if d.is_checked %} checked {% endif %} /></td>
+                                        <td><input type="hidden" class="is_nodeseado" value="{{ d.is_nodeseado }}"><input type="hidden" class="is_oferta" value="{{ d.is_oferta }}"><input type="hidden" name="dc{{ forloop.counter }}-id" value="{{ d.id }}">{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                        <td>
+                                            <input type="hidden" class="form-control cantidad_pedido" value="{{ d.cantidad_presentacion_pedido }}">
+                                            <input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_pedido }}">
+                                        </td>
+                                        <td class="td_precio">{{ d.precio }}</td>
+                                        <td class="td_descuento">{{ d.descuento }}</td>
+                                        <td class="td_impuesto">{% for i in d.impuesto_value.0 %} * {{ i }} <br>  {% endfor %}<input type="hidden" class="impuesto_inp" value="{{ d.impuesto_value.1 }}"></td>
+                                        <td>{% if d.is_oferta %} {{ d.total_final }}<input type="hidden" class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}"> {% else %}<input class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}">{% endif %}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+               <legend class="m-b-15">
+                   Productos no Pedidos
+                   <span class="span-right"><a href="#modal-agregar_producto" data-toggle="modal" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a></span>
+               </legend>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="22%">Producto</th>
+                                <th width="13%">Presentación</th>
+                                <th width="15%">Cantidad</th>
+                                <th width="12%">Precio</th>
+                                <th width="13%">Total</th>
+                                <th width="13%">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_nopedido">
+                            <tr id="tr_nopedido_empty">
+                                    <td class="td_producto"></td>
+                                    <td class="td_presentacion"></td>
+                                    <td><input class="form-control cantidad_entrega"></td>
+                                    <td class="td_precio"></td>
+                                    <td><input type="hidden" class="impuesto_inp" value="0"><input class="form-control totalfinal"></td>
+                                    <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            {% for d in detalle %}
+                                {% if d.is_nodeseado %}
+                                        <tr id="tr_dc_{{ forloop.counter }}" data-id="{{ d.id }}">
+                                            <td><input type="hidden" class="is_nodeseado" value="{{ d.is_nodeseado }}"><input type="hidden" class="is_oferta" value="{{ d.is_oferta }}"><input type="hidden" name="dc{{ forloop.counter }}-id" value="{{ d.id }}">{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                            <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                            <td><input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_entrega }}"></td>
+                                            <td class="td_precio">{{ d.precio }}</td>
+                                            <td><input type="hidden" class="impuesto_inp" value="0"><input class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}"></td>
+                                            <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn delete"><i class="fas fa-trash"></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+    </div>
+</div>
+
+</form>
+
+
+{% endblock %}
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-agregar_producto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Agregar:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Producto:</label>
+                                {{ clean_form.producto }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Presentación:</label>
+                                <select class="presentacionxproducto_nopedido"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Cantidad:</label>
+                                {{ clean_form.cantidad_presentacion_entrega }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Total:</label>
+                                {{ clean_form.total_final }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="button" class="btn btn-success agregar_nopedido">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block bottom_scripts %}
+        <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    	<script src="{% static "assets/plugins/switchery/switchery.min.js" %}"></script>
+    	<script src="{% static "assets/own/almacen/recepcion.js" %}"></script>
+        <script>
+            $(".default-select2").val('');
+            $(".default-select2").select2({placeholder:'Seleccione un producto', dropdownParent: $('#modal-agregar_producto')});
+            $(".presentacionxproducto_nopedido").select2({placeholder:'Seleccione un Producto', dropdownParent: $('#modal-agregar_producto')});
+            $(".estado_select").select2({placeholder:'Seleccione'});
+            $(".select2-container--default").removeAttr('style').css("width","100%");
+    if ($('[data-render=switchery]').length !== 0) {
+        $('[data-render=switchery]').each(function() {
+            var themeColor = COLOR_GREEN;
+            var option = {};
+                option.color = themeColor;
+                option.secondaryColor = ($(this).attr('data-secondary-color')) ? $(this).attr('data-secondary-color') : '#dfdfdf';
+                option.className = ($(this).attr('data-classname')) ? $(this).attr('data-classname') : 'switchery';
+                option.disabled = ($(this).attr('data-disabled')) ? true : false;
+                option.disabledOpacity = ($(this).attr('data-disabled-opacity')) ? parseFloat($(this).attr('data-disabled-opacity')) : 0.5;
+                option.speed = ($(this).attr('data-speed')) ? $(this).attr('data-speed') : '0.5s';
+            var switchery = new Switchery(this, option);
+        });
+    }
+            init_recepcion();
+        </script>
+{% endblock %}

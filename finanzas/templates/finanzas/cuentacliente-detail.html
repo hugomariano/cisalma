@@ -1,0 +1,151 @@
+{% extends "finanzas/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <a href="#modal-pago" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-dollar-sign"></i></a>
+            </div>
+            <h4 class="panel-title">Cuenta Cliente</h4>
+        </div>
+        <div class="panel-body">
+
+             <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">CLIENTE:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.cliente.descripcion }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">CONDICIÓN:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.get_duracion_display }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">ESTADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.get_estado_display }}
+                    </div>
+
+                </div>
+                <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">TIPO:</label>
+                    </div>
+                    <div class="col-md-2" id="orden_total">
+                        {{ object.get_tipo_display }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA CADUCIDAD:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.fechahora_caducidad|date:'d-m-Y H:i' }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">TOTAL / AMORTIZADO / DEUDA:</label>
+                    </div>
+
+                    <div class="col-md-2">
+                        {{ object.monto_total }} / {{ object.monto_amortizado }} /  {{ object.monto_deuda}}
+                    </div>
+
+                </div>
+           <div class="col-md-12">
+           
+               <legend class="m-b-15">
+                   Detalles
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha/Hora</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Recibo de Pago</th>
+                                <th>Banco</th>
+                                <th>Codigo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ d.fechahora|date:'d-m-Y H:i' }}</td>
+                                        <td>{{ d.get_tipo_display }}</td>
+                                        <td>{{ d.monto }}</td>
+                                        <td>{{ d.recibo }}</td>
+                                        <td>{{ d.get_banco_display }}</td>
+                                        <td>{{ d.codigo }}</td>
+                                        <td></td>
+                                    </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-pago">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/finanzas/pagocliente/add/{{ object.id }}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Movimiento:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo:</label>
+                                {{ pago_create.tipo }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Monto:</label>
+                                {{ pago_create.monto }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo:</label>
+                                {{ pago_create.banco }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Código:</label>
+                                {{ pago_create.codigo }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+            <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $(".default-select2").select2({placeholder: 'Seleccione'});
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+    </script>
+{% endblock %}

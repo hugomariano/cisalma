@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 24
+*****************************
+VENTA: 24
+CLIENTE: JORVING JHOEL NIETO SILVA
+FORM.PAGO: CONTADO
+FECHA:2020-02-25 17:53:39
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+ABRIDOR BOTELLA//UNIDAD
+    100(100)  S/.0.80 S/. 80.00
+
+*****************************
+SUB TOTAL      S/ : 80.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 80.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

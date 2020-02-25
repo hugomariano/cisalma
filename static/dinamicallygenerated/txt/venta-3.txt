@@ -1,0 +1,27 @@
+       ABADS E.I.R.L.
+
+JR. SAN MARTIN 871
+HUANUCO - HUANUCO - HUANUCO
+RUC: 20528995676
+*****************************
+       TICKET NRO: 3
+*****************************
+VENTA: 3
+CLIENTE: JORVING JHOEL NIETO SILVA
+FORM.PAGO: CONTADO
+FECHA:2018-11-11 21:47:20
+*****************************
+Prod/Pres Cant  Precio  Total
+*****************************
+LINTERNA FRONTAL DOBLE ENFOQUE//UNIDAD
+    2(2)  S/.6.50 S/. 13.00
+
+*****************************
+SUB TOTAL      S/ : 13.00
+DESCUENTO      S/ : 0.00
+IMP. MONTO     S/ : 0.00
+TOTAL          S/ : 13.00
+*****************************
+     GRACIAS POR SU COMPRA.
+*****************************
+*****************************

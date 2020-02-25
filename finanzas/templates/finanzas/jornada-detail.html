@@ -1,0 +1,169 @@
+{% extends "finanzas/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <a href="#modal-movimiento" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-exchange-alt"></i></a>
+                <a href="#modal-cierre" class="btn btn-xs btn-danger buttons" data-toggle="modal"><i class="fa fa-lock"></i></a>
+            </div>
+            <h4 class="panel-title">Jornada</h4>
+        </div>
+        <div class="panel-body">
+
+             <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">CAJA:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.caja.descripcion }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA/HORA APERTURA:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.fechahora_inicio|date:'d-m-Y H:i' }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA/HORA CIERRE:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.fechahora_fin|date:'d-m-Y H:i' }}
+                    </div>
+
+                </div>
+                <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">MONTO:</label>
+                    </div>
+                    <div class="col-md-2" id="orden_total">
+                        {{ object.monto_actual }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ABIERTO POR:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.asignado_inicio.username }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">CERRADO POR:</label>
+                    </div>
+
+                    <div class="col-md-2">
+                        {{ object.asignado_fin.username }}
+                    </div>
+
+                </div>
+           <div class="col-md-12">
+           
+               <legend class="m-b-15">
+                   Detalles
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha/Hora</th>
+                                <th>Tipo</th>
+                                <th>Movimiento</th>
+                                <th>Monto</th>
+                                <th>Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ d.fechahora|date:'d-m-Y H:i' }}</td>
+                                        <td>{{ d.get_tipo_display }}</td>
+                                        <td>
+                                            {% if tipo == '1' %}
+                                                <a href="/ventas/venta/{{ d.target|default_if_none:'' }}">{{ d.target|default_if_none:'' }}</a>
+                                            {% else %}
+                                                <a href="/compras/compra/{{ d.target|default_if_none:'' }}">{{ d.target|default_if_none:'' }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ d.monto }}</td>
+                                        <td>{{ d.descripcion }}</td>
+                                    </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-movimiento">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/finanzas/detallejornada/add/{{ object.id }}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Movimiento:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo:</label>
+                                {{ djornada_create.tipo }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Monto:</label>
+                                {{ djornada_create.monto }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Descripción:</label>
+                                {{ djornada_create.descripcion }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-cierre">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/finanzas/jornada/close/{{ object.id }}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Cierre de Caja</legend>
+                        </fieldset>
+                        <p>Usted cerrará caja con un monto final de: {{ object.monto_actual }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-danger">Cerrar Caja</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+            <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $(".default-select2").select2({placeholder: 'Seleccione'});
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+    </script>
+{% endblock %}

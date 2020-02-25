@@ -1,0 +1,272 @@
+{% extends "compras/base.html" %}
+{% load static %}
+
+{% load maestro_tags %}
+
+{% block head_files %}
+        <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <a href="/compras/compra/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+                {% if object.is_financiado %}
+                    {% if not object.is_entregado %}
+                        <a href="#modal-entrega" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-check-circle"></i></a>
+                    {% endif %}
+                {% else %}
+                    {% if object.estado != '4' %}
+                        <a href="#modal-pago" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                    {% endif %}
+                {% endif %}
+                {% if object.estado != '4' %}
+                    <a href="#modal-cancelar" data-toggle="modal" class="btn btn-xs btn-danger buttons"><i class="far fa-trash-alt"></i></a>
+                {% endif %}
+            </div>
+            <h4 class="panel-title">Compra</h4>
+        </div>
+        <div class="panel-body">
+
+             <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">PROVEEDOR:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.proveedor.descripcion }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">ESTADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.get_estado_display }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.fechahora_creacion|date:'d-m-Y H:i' }}
+                    </div>
+
+                </div>
+                <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">TOTAL:</label>
+                    </div>
+                    <div class="col-md-2" id="orden_total">
+                        {{ object.total_final|default_if_none:0 }}<input type="hidden" id="total_inp" value="{{ object.total_final|default_if_none:0 }}">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ASIGNADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.asignado.username }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ALMACEN:</label>
+                    </div>
+
+                    <div class="col-md-2">
+                        {{ object.almacen.descripcion }}
+                    </div>
+
+                </div>
+           <div class="col-md-12">
+               {% if incidencias %}
+                   <div class="alert alert-danger fade show">
+                        <ul>
+                            {% for i in incidencias %}
+                                {% if i.0 == '3' %}
+                                    <li> {{ i.1 }} </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+               {% endif %}
+               <legend class="m-b-15">
+                   Detalle
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="15%">Producto</th>
+                                <th width="10%">Presentación</th>
+                                <th width="10%">Cantidad</th>
+                                <th width="10%">Precio</th>
+                                <th width="10%">SubTotal</th>
+                                <th width="10%">Descuento</th>
+                                <th width="10%">Impuesto</th>
+                                <th width="10%">Total</th>
+                                <th width="15%">Promociones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                {% if d.is_oferta is False %}
+                                    <tr>
+                                        <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                        <td>{{ d.cantidad_presentacion_pedido }} &#8773; {{ d.cantidad_unidad_pedido }} U.</td>
+                                        <td>{{ d.precio }}</td>
+                                        <td>{{ d.sub_total }}</td>
+                                        <td>{{ d.descuento }}</td>
+                                        <td>{{ d.impuesto_monto }}</td>
+                                        <td>{{ d.total_final }}</td>
+                                        <td>
+                                            {% for p in d.promocion %}
+                                                {% if p.tipo == '1' %}
+                                                    - {{ p.retorno|floatformat:"0" }} {{ p.producto.descripcion }} en {{ p.presentacion.presentacion.descripcion }} por cada {{ p.cantidad_compra }}<br>
+                                                {% elif p.tipo == '2' %}
+                                                    - Descuento de: S/. {{ p.retorno }} por cada {{ p.cantidad_compra }} en {{ p.presentacion.presentacion.descripcion }} <br>
+                                                {% else %}
+                                                    - Descuento del: {{ p.retorno }} % si compras {{ p.cantidad_compra }} en {{ p.presentacion.presentacion.descripcion }} <br>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+               <legend class="m-b-15">
+                   Productos Regalo
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="22%">Producto</th>
+                                <th width="13%">Presentación</th>
+                                <th width="10%">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                {% if d.is_oferta %}
+                                    <tr>
+                                        <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                        <td>{{ d.cantidad_presentacion_pedido }} &#8773; {{ d.cantidad_unidad_pedido }} U.</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+
+{% block modal %}
+   <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-pago">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_pago_compra" action="/finanzas/pagocompra/{{ object.id }}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Pago de la Venta:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Caja:</label>
+                                {{ pago_form.caja }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo Pago:</label>
+                                {{ pago_form.tipo_pago }}
+                            </div>
+                            <div class="form-group periodo_credito_hdn" id="periodo_credito">
+                                <label for="exampleInputEmail1">Periodo Crédito:</label>
+                                {{ pago_form.duracion }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Pago:</label>
+                                {{ pago_form.pago }}
+                            </div>
+                            <div class="form-group periodo_credito_hdn" id="recibo_credito">
+                                <label for="exampleInputEmail1">Recibo por Pago:</label>
+                                {{ pago_form.recibo }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo Comprobante:</label>
+                                {{ pago_form.tipo_comprobante }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Serie:</label>
+                                {{ pago_form.serie_comprobante }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Número:</label>
+                                {{ pago_form.numero_comprobante }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Pagar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-entrega">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_pago_venta" action="/compras/compra/{{ object.id }}/entrega" method="GET">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Entrega de la Compra:</legend>
+                            <p>¿Han entregado todos los pedidos de la compra?</p>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Sí</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+            <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-cancelar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_pago_venta" action="/ventas/venta/{{ object.id }}/cancelar" method="GET">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Cancelar Venta:</legend>
+                            <p>¿Está seguro que desea cancelar la venta?</p>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-danger">Sí</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+        <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/own/compras/compradetail.js" %}"></script>
+
+    <script>
+        $(".default-select2").select2({placeholder: "Seleccione", dropdownParent: $('#modal-pago')});
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+            init_detail();
+
+    </script>
+{% endblock %}
